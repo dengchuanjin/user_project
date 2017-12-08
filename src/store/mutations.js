@@ -16,6 +16,10 @@ const state = {
   noPrice:0,
   //初始化明细信息
   DetailEnquiriesList:[],
+  //初始化提现查询信息
+  CashSearchList:[],
+  //初始化明细记录
+  RowClickList:[],
 };
 
 const mutations = {
@@ -50,6 +54,12 @@ const mutations = {
   },
   initSearch(state,data){
     state.DetailEnquiriesList = data;
+  },
+  initCashSearch(state,data){
+    state.CashSearchList = data;
+  },
+  initRowClick(state,data){
+    state.RowClickList = data;
   }
 };
 

@@ -35,6 +35,7 @@
 
     </el-col>
     <el-table
+      :height="initHeight"
       :data="DetailEnquiriesList"
       v-loading="listLoading"
       style="width: 100%;"
@@ -92,12 +93,10 @@
         </template>
       </el-table-column>
       <el-table-column
+        prop="STicketPrice"
         label="票价"
         align="center"
       >
-        <template slot-scope="scope">
-          {{scope.row.STicketPrice +"元"}}
-        </template>
       </el-table-column>
     </el-table>
 
@@ -122,7 +121,6 @@
 </template>
 <script>
   import {mapGetters} from 'vuex'
-  import {postPromise} from '../assets/js/public'
   export default{
     name: '',
     computed: mapGetters([
@@ -131,6 +129,7 @@
     ]),
     data(){
       return {
+        initHeight:200,
         size:20,
         total:0,
         currentPage4:0,
@@ -191,10 +190,12 @@
       }
     },
     methods: {
+      //计算条数
       handleSizeChange(val) {
         this.initData(1,val)
         this.getData.Rows = val
       },
+      //计算页数
       handleCurrentChange(val) {
         this.initData(val,this.getData.Rows)
       },
@@ -217,8 +218,10 @@
       },
       //搜索
       search(){
+        this.initHeight = 750
         this.initData(1,this.size);
       },
+      //计算总价
       getSummaries(param) {
         const { columns, data } = param;
         const sums = [];
@@ -227,7 +230,11 @@
             sums[index] = '总价';
             return;
           }
-          const values = data.map(item => Number(item.STicketPrice));
+          const values = data.map(item => {
+            if(column.property=='STicketPrice'){
+              return Number(item.STicketPrice)
+            }
+          });
           if (!values.every(value => isNaN(value))) {
             sums[index] = values.reduce((prev, curr) => {
               const value = Number(curr);

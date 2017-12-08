@@ -8,6 +8,8 @@ import Login from '@/components/Login'
 import User from '@/components/User'
 //明细查询
 import DetailEnquiries from '@/components/DetailEnquiries'
+//提现查询
+import CashSearch from '@/components/CashSearch'
 export default [
   {
     path: '/',
@@ -36,6 +38,14 @@ export default [
           User: DetailEnquiries
         },
         name:'DetailEnquiries'
+      },
+      {
+        path: 'cashSearch',
+        components: {
+          default: Home,
+          User: CashSearch
+        },
+        name:'CashSearch'
       }
     ]
   },

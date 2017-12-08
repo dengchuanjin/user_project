@@ -79,7 +79,9 @@
                       <li>
                         <router-link to="/home/detailEnquiries">明细查询</router-link>
                       </li>
-
+                      <li>
+                        <router-link to="/home/cashSearch">提现查询</router-link>
+                      </li>
                     </ul>
                   </li>
                   <!-- /main -->

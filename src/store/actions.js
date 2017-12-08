@@ -6,18 +6,6 @@ export default {
   //初始化信息
   initData({commit},obj){
     return new Promise(function (relove,reject) {
-      // postPromise('http://114.55.248.116:43000/CashoutWebservice.asmx/CashApplays',{
-      //   SID:obj.id,
-      //   FromDate:'',
-      //   ToDate:'',
-      //   CashStatus:'',
-      //   PageNum:1,
-      //   Rows:5
-      // })
-      //   .then(data=>{
-      //     var data = JSON.parse(data);
-      //     console.log(data)
-      //   })
       postPromise('http://114.55.248.116:43000/CashoutWebservice.asmx/GetCanOrNotOutMoney',{
         StationID:obj.id,
         Way: obj.num
@@ -37,23 +25,12 @@ export default {
     return new Promise(function (relove,reject) {
       postPromise('http://114.55.248.116:43000/CashoutWebservice.asmx/ApplayCashOut',data)
         .then(data=>{
-          console.log(data)
-          // var data = data.replace(/'/g,'"');
           var data = JSON.parse(data);
           if(Number(data.backCode)==200){
             relove(data.balance)
           }else{
             reject(data.backResult)
           }
-        })
-    })
-  },
-  //明细查询
-  detailEnquiries(store,data){
-    return new Promise(function (relove,reject) {
-      postPromise('http://114.55.248.116:43000/CashoutWebservice.asmx/SellInfos',data)
-        .then(data=>{
-          var data = JSON.parse(data);
         })
     })
   },
@@ -67,7 +44,6 @@ export default {
           }else{
             reject(data.backResult)
           }
-          // console.log(data)
         })
     })
   },
@@ -79,6 +55,35 @@ export default {
           var data = JSON.parse(data);
           if(Number(data.backCode)==200){
             commit('initSearch',data.sellInfoList)
+            relove(data.total)
+          }else{
+            reject(data.backResult)
+          }
+        })
+    })
+  },
+  //初始化提现查询信息
+  initCashSearch({commit},data){
+    return new Promise(function (relove,reject) {
+      postPromise('http://114.55.248.116:43000/CashoutWebservice.asmx/CashApplays',data)
+        .then(data=>{
+          var data = JSON.parse(data);
+          if(Number(data.backCode)==200){
+            commit('initCashSearch',data.cashApplayList)
+            relove(data.total)
+          }else{
+            reject(data.backResult)
+          }
+        })
+    })
+  },
+  rowClick({commit},data){
+    return new Promise(function (relove,reject) {
+      postPromise('http://114.55.248.116:43000/CashoutWebservice.asmx/SellInfos',data)
+        .then(data=>{
+          var data = JSON.parse(data);
+          if(Number(data.backCode)==200){
+            commit('initRowClick',data.sellInfoList)
             relove(data.total)
           }else{
             reject(data.backResult)
